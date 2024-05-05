@@ -10,7 +10,7 @@ const NavBar = () => {
   return (
     <header className="fixed left-0 top-0 flex h-14 w-[100%] items-center border-b border-b-border bg-background/50 px-4 backdrop-blur-sm backdrop-brightness-50 md:px-6">
       <Link className="mr-4 flex h-full items-center gap-2" href="/">
-        <span className="text-lg font-semibold">Cisurp</span>
+        <span className="text-lg font-semibold text-primary">Cisurp</span>
       </Link>
 
       <nav className="flex h-full flex-1 items-center space-x-4 md:pl-4">
@@ -34,7 +34,11 @@ const NavBar = () => {
 
       {!isLoggedIn && (
         <Link href={"/login"}>
-          <Button size="sm" variant="outline" className="rounded-lg">
+          <Button
+            size="sm"
+            variant="outline"
+            className="rounded-lg text-primary"
+          >
             Sign in
           </Button>
         </Link>
