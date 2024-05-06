@@ -17,6 +17,12 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useUserStore } from "../state/stores";
 
+const signOut = () => {
+  sessionStorage.removeItem("accessToken");
+  sessionStorage.removeItem("refreshToken");
+  window.location.reload();
+};
+
 const formSchema = z.object({
   username: z.string().min(3).max(50),
   avatar: z.string().url(),
@@ -135,9 +141,17 @@ const EditProfileForm = ({
           )}
         />
 
-        <div className="pt-3">
+        <div className="space-x-4 pt-3">
           <Button disabled={isMutating} type="submit" className="rounded-lg">
             Update
+          </Button>
+
+          <Button
+            onClick={signOut}
+            disabled={isMutating}
+            variant={"destructive"}
+          >
+            Sign out
           </Button>
         </div>
       </form>
