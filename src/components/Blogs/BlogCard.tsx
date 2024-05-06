@@ -15,9 +15,10 @@ import { useState } from "react";
 import EditBlogDialog from "./EditBlogDialog";
 import { convertDateUTC } from "~/lib/utils";
 
-const BlogCard = ({ blogData }: { blogData: TBlog }) => {
-  const isAuthor = useUserStore((state) => state.userId) === blogData.userId;
+const BlogCard = ({ reblogData }: { reblogData: TBlog }) => {
+  const isAuthor = useUserStore((state) => state.userId) === reblogData.userId;
   const [showDialog, setShowDialog] = useState(false);
+  const [blogData, setBlogData] = useState(reblogData);
 
   return (
     <>
@@ -56,6 +57,11 @@ const BlogCard = ({ blogData }: { blogData: TBlog }) => {
         open={showDialog}
         onOpenChange={setShowDialog}
         blogData={blogData}
+        setThisBlog={(values: { title: string; body: string }) =>
+          setBlogData((prev) => {
+            return { ...prev, ...values };
+          })
+        }
       />
     </>
   );
