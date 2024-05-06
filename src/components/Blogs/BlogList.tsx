@@ -18,14 +18,14 @@ const BlogList = () => {
     return <LoadingSpinner></LoadingSpinner>;
   }
 
-  if (error) {
-    return <ErrorLabel message="Failed to retrieve blogs, please try again." />;
-  }
-
   const validated = ZBlogArray.safeParse(data);
 
-  if (!validated.success) {
-    return <ErrorLabel message="Failed to retrieve blogs, please try again." />;
+  if (!validated.success || error) {
+    return (
+      <div className="w-full text-center">
+        <ErrorLabel message="Failed to retrieve blogs, please try again." />
+      </div>
+    );
   }
 
   return (
@@ -34,7 +34,7 @@ const BlogList = () => {
         {validated.data.map((blog) => {
           return (
             <article key={blog.id} className="py-2">
-              <BlogCard blogData={blog}></BlogCard>
+              <BlogCard reblogData={blog}></BlogCard>
             </article>
           );
         })}
