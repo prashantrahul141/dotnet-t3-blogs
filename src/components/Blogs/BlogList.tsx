@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { LoadingSpinner } from "../ui/spinner";
 import BlogCard from "./BlogCard";
 import ErrorLabel from "../common/ErrorLabel";
+import { ScrollArea } from "../ui/scroll-area";
 
 const fetcher = (endpoint: string) => fetch(endpoint).then((res) => res.json());
 
@@ -28,13 +29,17 @@ const BlogList = () => {
   }
 
   return (
-    <div className="flex w-full items-center justify-center">
-      <article className="flex w-screen max-w-lg flex-col gap-2">
+    <ScrollArea className="w-full">
+      <div className="mx-auto w-full max-w-xl gap-2">
         {validated.data.map((blog) => {
-          return <BlogCard blogData={blog} key={blog.id}></BlogCard>;
+          return (
+            <article key={blog.id} className="py-2">
+              <BlogCard blogData={blog}></BlogCard>
+            </article>
+          );
         })}
-      </article>
-    </div>
+      </div>
+    </ScrollArea>
   );
 };
 
