@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -12,6 +11,9 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import useSWRMutation from "swr/mutation";
+import { API_URLS } from "~/lib/consts";
+import { useToast } from "../ui/use-toast";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -21,7 +23,35 @@ const formSchema = z.object({
   password: z.string().min(2).max(18),
 });
 
-const RegisterForm = () => {
+async function registerUser(
+  url: string,
+  { arg }: { arg: z.infer<typeof formSchema> },
+) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(arg),
+  });
+
+  return res.status === 200;
+}
+
+const RegisterForm = ({
+  setCurrentTab,
+}: {
+  setCurrentTab: (value: string) => void;
+}) => {
+  const { toast } = useToast();
+
+  const { trigger, isMutating } = useSWRMutation(
+    API_URLS.Auth.Register(),
+    registerUser,
+    {},
+  );
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,8 +61,21 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const success = await trigger(values);
+    if (success) {
+      setCurrentTab("login");
+      toast({
+        title: "Created new account.",
+        description: "Created a new account for you, login.",
+      });
+    } else {
+      toast({
+        title: "Failed to register",
+        description:
+          "Unable to create a new account with the email and username.",
+      });
+    }
   };
 
   return (
@@ -79,8 +122,8 @@ const RegisterForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="rounded-lg">
-          Submit
+        <Button disabled={isMutating} type="submit" className="rounded-lg">
+          Create account
         </Button>
       </form>
     </Form>
