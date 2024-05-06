@@ -35,7 +35,9 @@ const BlogCard = ({ reblogData }: { reblogData: TBlog }) => {
           )}
         </div>
         <CardHeader>
-          <CardTitle>{blogData.title}</CardTitle>
+          <Link href={"/blog/" + blogData.id}>
+            <CardTitle>{blogData.title}</CardTitle>
+          </Link>
           <CardDescription className="text-xs">
             <Link
               href={`/profile/${blogData.userName}`}
