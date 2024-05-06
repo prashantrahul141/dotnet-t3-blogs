@@ -7,6 +7,7 @@ import "~/styles/globals.css";
 import en from "javascript-time-ago/locale/en";
 import RootLayout from "~/components/layouts/RootLayout";
 import CommonHead from "~/components/common/CommonHead";
+import { Toaster } from "~/components/ui/toaster";
 
 TimeAgo.addDefaultLocale(en);
 
@@ -24,6 +25,7 @@ const CisurpRoot: AppType = ({ Component, pageProps }) => {
       <RootLayout>
         <Component {...pageProps} />
       </RootLayout>
+      <Toaster />
     </main>
   );
 };
