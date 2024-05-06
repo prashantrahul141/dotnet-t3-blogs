@@ -25,3 +25,16 @@ export const getCookie = (name: string) => {
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const convertDateUTC = (date: string) => {
+  const rawDate = new Date(date);
+  return Date.UTC(
+    rawDate.getFullYear(),
+    rawDate.getMonth(),
+    rawDate.getDate(),
+    rawDate.getHours(),
+    rawDate.getMinutes(),
+    rawDate.getSeconds(),
+    rawDate.getMilliseconds(),
+  );
+};
