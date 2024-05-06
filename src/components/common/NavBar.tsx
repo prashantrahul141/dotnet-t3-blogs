@@ -6,6 +6,7 @@ import { useUserStore } from "../state/stores";
 const NavBar = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
   const userImage = useUserStore((state) => state.image);
+  const userName = useUserStore((state) => state.name);
 
   return (
     <header className="fixed left-0 top-0 z-50 flex h-14 w-[100%] items-center border-b border-b-border bg-background px-4 backdrop-blur-sm backdrop-brightness-50 md:px-6">
@@ -45,7 +46,7 @@ const NavBar = () => {
       )}
 
       {isLoggedIn && (
-        <Link href={"/profile"}>
+        <Link href={"/profile"} title={userName}>
           <Avatar>
             <AvatarImage src={userImage} />
             <AvatarFallback>PF</AvatarFallback>
