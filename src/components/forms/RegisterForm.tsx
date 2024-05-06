@@ -31,9 +31,9 @@ const RegisterForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
-  }
+  };
 
   return (
     <Form {...form}>

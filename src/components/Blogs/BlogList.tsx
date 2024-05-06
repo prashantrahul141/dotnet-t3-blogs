@@ -24,7 +24,7 @@ const BlogList = () => {
   const validated = ZBlogArray.safeParse(data);
 
   if (!validated.success) {
-    return <ErrorLabel message="Failed to validate, please try again." />;
+    return <ErrorLabel message="Failed to retrieve blogs, please try again." />;
   }
 
   return (
