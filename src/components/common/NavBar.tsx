@@ -8,7 +8,7 @@ const NavBar = () => {
   const userImage = useUserStore((state) => state.image);
 
   return (
-    <header className="fixed left-0 top-0 flex h-14 w-[100%] items-center border-b border-b-border bg-background/50 px-4 backdrop-blur-sm backdrop-brightness-50 md:px-6">
+    <header className="fixed left-0 top-0 z-50 flex h-14 w-[100%] items-center border-b border-b-border bg-background px-4 backdrop-blur-sm backdrop-brightness-50 md:px-6">
       <Link className="mr-4 flex h-full items-center gap-2" href="/">
         <span className="text-lg font-semibold text-primary">Cisurp</span>
       </Link>
