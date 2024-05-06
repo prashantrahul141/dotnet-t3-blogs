@@ -18,6 +18,7 @@ export const API_URLS = {
     GetLoggedInUser: () => `${BASE_API_URL}/api/User/GetLoggedInUser` as const,
     GetLoggedInUserImage: () =>
       `${BASE_API_URL}/api/User/GetLoggedInUserImage` as const,
+    UpdateUser: () => `${BASE_API_URL}/api/User/UpdateUser` as const,
   },
 
   Auth: {
