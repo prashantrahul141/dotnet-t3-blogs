@@ -24,7 +24,7 @@ const AuthGuard = ({
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("TOKEN") ?? ""}`,
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken") ?? ""}`,
         },
       });
     };
@@ -34,7 +34,7 @@ const AuthGuard = ({
         setSuccess(res.status === 200);
         if (res.status !== 200) {
           if (redirect) {
-            router.push("/login");
+            router.push("/signin");
           }
           return {};
         }

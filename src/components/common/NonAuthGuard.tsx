@@ -13,7 +13,7 @@ const NonAuthGuard = ({ children }: { children: React.ReactNode }) => {
         method: "GET",
         headers: {
           "Content-type": "application/json",
-          Authorization: `Bearer ${sessionStorage.getItem("TOKEN") ?? ""}`,
+          Authorization: `Bearer ${sessionStorage.getItem("accessToken") ?? ""}`,
         },
       });
     };

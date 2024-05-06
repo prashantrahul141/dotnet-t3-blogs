@@ -33,7 +33,7 @@ const NavBar = () => {
       </nav>
 
       {!isLoggedIn && (
-        <Link href={"/login"}>
+        <Link href={"/signin"}>
           <Button
             size="sm"
             variant="outline"
