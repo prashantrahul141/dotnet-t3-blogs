@@ -24,21 +24,43 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "../ui/textarea";
+import useSWRMutation from "swr/mutation";
+import { API_URLS } from "~/lib/consts";
+import { useToast } from "../ui/use-toast";
 
 const formSchema = z.object({
   title: z.string().min(5),
   body: z.string().min(5),
 });
 
+async function updateBlog(
+  url: string,
+  { arg }: { arg: z.infer<typeof formSchema> },
+) {
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+    body: JSON.stringify(arg),
+  });
+  return res.status === 202;
+}
+
 const EditBlogDialog = ({
   open,
   onOpenChange,
   blogData,
+  setThisBlog,
 }: {
   open: boolean;
   onOpenChange: Dispatch<SetStateAction<boolean>>;
   blogData: TBlog;
+  setThisBlog: (values: { title: string; body: string }) => void;
 }) => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,9 +69,23 @@ const EditBlogDialog = ({
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    onOpenChange(false);
+  const { trigger, isMutating } = useSWRMutation(
+    API_URLS.Blog.UpdateExisting(blogData.id),
+    updateBlog,
+    {},
+  );
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const success = await trigger(values);
+    if (success) {
+      setThisBlog(values);
+      onOpenChange(false);
+    } else {
+      toast({
+        title: "Failed to update blog",
+        description: "Failed to update this blog, please try again.",
+      });
+    }
   };
 
   return (
@@ -58,6 +94,7 @@ const EditBlogDialog = ({
         <DialogHeader className="relative">
           <DialogClose asChild className="absolute right-0 top-0">
             <Button
+              disabled={isMutating}
               variant={"ghost"}
               className="aspect-square w-fit rounded-full p-0"
             >
@@ -107,7 +144,9 @@ const EditBlogDialog = ({
             />
 
             <DialogFooter>
-              <Button type="submit">Save changes</Button>
+              <Button disabled={isMutating} type="submit">
+                Save changes
+              </Button>
             </DialogFooter>
           </form>
         </Form>
