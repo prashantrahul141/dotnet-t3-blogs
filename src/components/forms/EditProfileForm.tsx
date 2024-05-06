@@ -16,6 +16,17 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useUserStore } from "../state/stores";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "~/components/ui/alert-dialog";
+import { useState } from "react";
 
 const signOut = () => {
   sessionStorage.removeItem("accessToken");
@@ -64,6 +75,7 @@ const EditProfileForm = ({
   const { toast } = useToast();
   const userUpdateFn = useUserStore((state) => state.updatePerson);
   const prevUserState = useUserStore();
+  const [openSignOutDialog, setOpenSignOutDialog] = useState(false);
 
   const { trigger, isMutating } = useSWRMutation(
     API_URLS.User.UpdateUser(),
@@ -100,62 +112,91 @@ const EditProfileForm = ({
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto max-w-lg space-y-2"
-      >
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-primary">Username</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Your at"
-                  className="min-w-72 text-primary"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="mx-auto max-w-lg space-y-2"
+        >
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-primary">Username</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Your at"
+                    className="min-w-72 text-primary"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="avatar"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-primary">Avatar</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Image url"
-                  className="text-primary"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="avatar"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-primary">Avatar</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Image url"
+                    className="text-primary"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <div className="space-x-4 pt-3">
-          <Button disabled={isMutating} type="submit" className="rounded-lg">
-            Update
-          </Button>
+          <div className="space-x-4 pt-3">
+            <Button disabled={isMutating} type="submit" className="rounded-lg">
+              Update
+            </Button>
 
-          <Button
-            onClick={signOut}
-            disabled={isMutating}
-            variant={"destructive"}
-          >
-            Sign out
-          </Button>
-        </div>
-      </form>
-    </Form>
+            <Button
+              onClick={() => setOpenSignOutDialog(true)}
+              disabled={isMutating}
+              type="button"
+              variant={"destructive"}
+            >
+              Sign out
+            </Button>
+          </div>
+        </form>
+      </Form>
+
+      <AlertDialog open={openSignOutDialog} onOpenChange={setOpenSignOutDialog}>
+        <AlertDialogContent className="dark">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-primary">
+              Are you sure you want to sign out?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will sign out your account from this device, and you will
+              have to login again to access your account.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel asChild>
+              <Button variant={"ghost"} className="text-primary">
+                Cancel
+              </Button>
+            </AlertDialogCancel>
+            <AlertDialogAction asChild>
+              <Button variant={"destructive"} type="button" onClick={signOut}>
+                Sign out
+              </Button>
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 
