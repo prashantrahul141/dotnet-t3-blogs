@@ -23,7 +23,7 @@ const responseSchema = z.object({
 });
 
 const formSchema = z.object({
-  email: z.string().email(),
+  email: z.string(),
   password: z.string().min(2).max(18),
 });
 
@@ -90,9 +90,9 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Cisurp@email.com" {...field} />
+                <Input placeholder="Username" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
