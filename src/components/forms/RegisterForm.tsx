@@ -67,13 +67,13 @@ const RegisterForm = ({
       setCurrentTab("login");
       toast({
         title: "Created new account.",
-        description: "Created a new account for you, login.",
+        description: "Created a new account for you, now you can login.",
       });
     } else {
       toast({
         title: "Failed to register",
         description:
-          "Unable to create a new account with the email and username.",
+          "Unable to create a new account with that email and username.",
       });
     }
   };
@@ -102,7 +102,7 @@ const RegisterForm = ({
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="cisurp@support.com" {...field} />
+                <Input placeholder="cisurp@email.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
