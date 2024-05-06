@@ -2,7 +2,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../state/stores";
 import { LoadingSpinner } from "../ui/spinner";
-import { API_URL } from "~/lib/consts";
+import { API_URLS } from "~/lib/consts";
 import { ZUser } from "~/types";
 
 const AuthGuard = ({
@@ -20,7 +20,7 @@ const AuthGuard = ({
 
   useEffect(() => {
     const fetcher = async () => {
-      return await fetch(`${API_URL}/api/User/GetLoggedInUser`, {
+      return await fetch(API_URLS.User.GetLoggedInUser(), {
         method: "GET",
         headers: {
           "Content-type": "application/json",

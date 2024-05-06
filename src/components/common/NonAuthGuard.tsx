@@ -1,4 +1,4 @@
-import { API_URL } from "~/lib/consts";
+import { API_URLS } from "~/lib/consts";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LoadingSpinner } from "../ui/spinner";
@@ -9,7 +9,7 @@ const NonAuthGuard = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetcher = async () => {
-      return await fetch(`${API_URL}/api/User/GetLoggedInUser`, {
+      return await fetch(API_URLS.User.GetLoggedInUser(), {
         method: "GET",
         headers: {
           "Content-type": "application/json",

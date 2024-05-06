@@ -1,4 +1,4 @@
-import { API_URL } from "~/lib/consts";
+import { API_URLS } from "~/lib/consts";
 import { ZBlogArray, type TBlog } from "~/types";
 import useSWR from "swr";
 import { LoadingSpinner } from "../ui/spinner";
@@ -9,7 +9,7 @@ const fetcher = (endpoint: string) => fetch(endpoint).then((res) => res.json());
 
 const BlogList = () => {
   const { data, error, isLoading } = useSWR<TBlog[]>(
-    `${API_URL}/api/Blogs/GetAll`,
+    API_URLS.Blog.GetAll(),
     fetcher,
   );
 
