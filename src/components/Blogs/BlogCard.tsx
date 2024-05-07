@@ -6,7 +6,6 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { LuDot } from "react-icons/lu";
 import type { TBlog } from "~/types";
 import Link from "next/link";
 import ReactTimeAgo from "react-time-ago";
@@ -17,7 +16,13 @@ import { useState } from "react";
 import EditBlogDialog from "./EditBlogDialog";
 import { convertDateUTC } from "~/lib/utils";
 
-const BlogCard = ({ reblogData }: { reblogData: TBlog }) => {
+const BlogCard = ({
+  reblogData,
+  variant = "small",
+}: {
+  reblogData: TBlog;
+  variant?: "small" | "large";
+}) => {
   const isAuthor = useUserStore((state) => state.userId) === reblogData.userId;
   const [showDialog, setShowDialog] = useState(false);
   const [blogData, setBlogData] = useState(reblogData);
@@ -40,25 +45,39 @@ const BlogCard = ({ reblogData }: { reblogData: TBlog }) => {
           <Link href={"/blog/" + blogData.id}>
             <CardTitle>{blogData.title}</CardTitle>
           </Link>
-          <CardDescription className="flex gap-1 text-xs">
+          <CardDescription className="flex items-center gap-1 pt-2 text-xs">
             <Link
-              href={`/profile/${blogData.userName}`}
+              href={`/profile/${encodeURIComponent(blogData.userName)}`}
               className="flex gap-1 hover:underline"
             >
               <Avatar className="h-5 w-5">
                 <AvatarImage src={blogData.userImage} />
                 <AvatarFallback>PF</AvatarFallback>
               </Avatar>
-              {blogData.userName}
+              <p className="text-sm">{blogData.userName}</p>
             </Link>
             {"·"}
             <ReactTimeAgo
+              className="text-sm"
               date={convertDateUTC(blogData.createdAt)}
             ></ReactTimeAgo>
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p>{blogData.body}</p>
+          <Link href={`/blog/${encodeURIComponent(blogData.id)}`}>
+            <div
+              className={`${variant === "large" ? "max-h-full" : "max-h-52"}`}
+            >
+              {blogData.body.length > 500 && variant === "small" ? (
+                <div className="relative">
+                  <p className="text-balance">{blogData.body.slice(0, 500)}</p>
+                  <div className="absolute bottom-0 h-28 w-full bg-gradient-to-t from-black to-black/0"></div>
+                </div>
+              ) : (
+                <p className="text-balance">{blogData.body}</p>
+              )}
+            </div>
+          </Link>
         </CardContent>
       </Card>
 
