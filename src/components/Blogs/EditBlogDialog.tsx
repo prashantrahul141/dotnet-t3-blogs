@@ -90,7 +90,7 @@ const EditBlogDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="dark sm:max-w-[425px]">
+      <DialogContent className="dark max-w-xl">
         <DialogHeader className="relative">
           <DialogClose asChild className="absolute right-0 top-0">
             <Button
