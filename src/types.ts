@@ -7,6 +7,7 @@ export const ZBlog = z.object({
   userId: z.string(),
   userName: z.string(),
   createdAt: z.string(),
+  userImage: z.string().url(),
 });
 
 export type TBlog = z.infer<typeof ZBlog>;

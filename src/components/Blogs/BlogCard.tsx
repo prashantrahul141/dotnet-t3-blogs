@@ -5,6 +5,8 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { LuDot } from "react-icons/lu";
 import type { TBlog } from "~/types";
 import Link from "next/link";
 import ReactTimeAgo from "react-time-ago";
@@ -38,13 +40,18 @@ const BlogCard = ({ reblogData }: { reblogData: TBlog }) => {
           <Link href={"/blog/" + blogData.id}>
             <CardTitle>{blogData.title}</CardTitle>
           </Link>
-          <CardDescription className="text-xs">
+          <CardDescription className="flex gap-1 text-xs">
             <Link
               href={`/profile/${blogData.userName}`}
-              className="hover:underline"
+              className="flex gap-1 hover:underline"
             >
-              @{blogData.userName}
-            </Link>{" "}
+              <Avatar className="h-5 w-5">
+                <AvatarImage src={blogData.userImage} />
+                <AvatarFallback>PF</AvatarFallback>
+              </Avatar>
+              {blogData.userName}
+            </Link>
+            {"·"}
             <ReactTimeAgo
               date={convertDateUTC(blogData.createdAt)}
             ></ReactTimeAgo>
