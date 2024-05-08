@@ -25,6 +25,11 @@ const PublicUserProfile = ({ user }: { user: TPublicUser }) => {
           </div>
         </CardContent>
       </Card>
+      <div className="w-full">
+        <div className="mx-auto w-full max-w-xl">
+          <p className="pl-1 text-xl font-semibold text-primary">Blogs</p>
+        </div>
+      </div>
       <BlogListUser userId={user.userId}></BlogListUser>
     </>
   );
