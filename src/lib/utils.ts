@@ -38,3 +38,13 @@ export const convertDateUTC = (date: string) => {
     rawDate.getMilliseconds(),
   );
 };
+
+export const filterQueryParameter = (blogId: string | string[] | undefined) => {
+  if (typeof blogId === "string") {
+    return blogId;
+  } else if (typeof blogId === "undefined") {
+    return "undefined";
+  } else {
+    return blogId[0] ?? "undefined";
+  }
+};
