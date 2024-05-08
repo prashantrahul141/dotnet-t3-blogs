@@ -1,4 +1,4 @@
-export const BASE_API_URL = "http://localhost:3000";
+export const BASE_API_URL = "http://localhost:3000" as const;
 
 export const API_URLS = {
   Blog: {
@@ -19,6 +19,10 @@ export const API_URLS = {
     GetLoggedInUserImage: () =>
       `${BASE_API_URL}/api/User/GetLoggedInUserImage` as const,
     UpdateUser: () => `${BASE_API_URL}/api/User/UpdateUser` as const,
+    GetUserById: (userId: string) =>
+      `${BASE_API_URL}/api/User/GetUserById/${userId}` as const,
+    GetUserByUsername: (userName: string) =>
+      `${BASE_API_URL}/api/User/GetUserByUsername/${userName}` as const,
   },
 
   Auth: {
