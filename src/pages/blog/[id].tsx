@@ -4,20 +4,10 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import BlogCard from "~/components/Blogs/BlogCard";
 import ErrorLabel from "~/components/common/ErrorLabel";
-import { Button } from "~/components/ui/button";
 import { LoadingSpinner } from "~/components/ui/spinner";
 import { API_URLS } from "~/lib/consts";
+import { filterQueryParameter } from "~/lib/utils";
 import { TBlog, ZBlog } from "~/types";
-
-const filterBlogId = (blogId: string | string[] | undefined) => {
-  if (typeof blogId === "string") {
-    return blogId;
-  } else if (typeof blogId === "undefined") {
-    return "nah";
-  } else {
-    return blogId[0] ?? "nah";
-  }
-};
 
 const fetcher = (endpoint: string) => fetch(endpoint).then((res) => res.json());
 
@@ -27,7 +17,7 @@ const BlogByIdPage = () => {
   const [mounted, setMounted] = useState(false);
 
   const { data, error, isLoading } = useSWR<TBlog>(
-    mounted ? API_URLS.Blog.GetBlogByBlogId(filterBlogId(id)) : null,
+    mounted ? API_URLS.Blog.GetBlogByBlogId(filterQueryParameter(id)) : null,
     fetcher,
     {
       revalidateOnMount: true,
