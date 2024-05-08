@@ -10,15 +10,15 @@ export const useUserStore = create<
 >()((set) => ({
   email: "",
   userId: "",
-  name: "",
-  image: "",
+  username: "",
+  avatar: "",
   isLoggedIn: false,
   updatePerson: (user: TSessionUser) =>
     set(() => ({
       email: user.email,
       userId: user.userId,
-      name: user.name,
-      image: user.image,
+      username: user.username,
+      avatar: user.avatar,
       isLoggedIn: user.isLoggedIn,
     })),
 }));

@@ -96,8 +96,8 @@ const EditProfileForm = ({
     if (value.success) {
       userUpdateFn({
         ...prevUserState,
-        name: values.username,
-        image: values.avatar,
+        username: values.username,
+        avatar: values.avatar,
       });
 
       toast({

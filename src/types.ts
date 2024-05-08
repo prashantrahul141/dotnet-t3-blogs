@@ -17,8 +17,12 @@ export const ZBlogArray = z.array(ZBlog);
 export const ZUser = z.object({
   email: z.string().email(),
   userId: z.string(),
-  name: z.string(),
-  image: z.string().url(),
+  username: z.string(),
+  avatar: z.string().url(),
 });
 
 export type TUser = z.infer<typeof ZUser>;
+
+export const ZPublicUser = ZUser.omit({ email: true });
+
+export type TPublicUser = z.infer<typeof ZPublicUser>;

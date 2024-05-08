@@ -44,10 +44,10 @@ const AuthGuard = ({
       .then((data: any) => {
         const parsed = ZUser.safeParse(data);
         userStore({
-          name: parsed.success ? parsed.data.name : "",
+          username: parsed.success ? parsed.data.username : "",
           userId: parsed.success ? parsed.data.userId : "",
           email: parsed.success ? parsed.data.email : "",
-          image: parsed.success ? parsed.data.image : "",
+          avatar: parsed.success ? parsed.data.avatar : "",
           isLoggedIn: parsed.success,
         });
       });
