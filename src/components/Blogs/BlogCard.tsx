@@ -48,14 +48,15 @@ const BlogCard = ({
           <CardDescription className="flex items-center gap-1 pt-2 text-xs">
             <Link
               href={`/profile/${encodeURIComponent(blogData.userName)}`}
-              className="flex gap-1 hover:underline"
+              className="flex gap-1 text-sm hover:underline"
             >
               <Avatar className="h-5 w-5">
                 <AvatarImage src={blogData.userImage} />
                 <AvatarFallback>PF</AvatarFallback>
               </Avatar>
-              <p className="text-sm">{blogData.userName}</p>
+              {blogData.userName}
             </Link>
+
             {"·"}
             <ReactTimeAgo
               className="text-sm"
