@@ -4,6 +4,7 @@ import { useUserStore } from "../state/stores";
 import { LoadingSpinner } from "../ui/spinner";
 import { API_URLS } from "~/lib/consts";
 import { ZUser } from "~/types";
+import { useToast } from "../ui/use-toast";
 
 const AuthGuard = ({
   children,
@@ -17,6 +18,7 @@ const AuthGuard = ({
   const router = useRouter();
   const [success, setSuccess] = useState(false);
   const userStore = useUserStore((state) => state.updatePerson);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetcher = async () => {
@@ -43,6 +45,10 @@ const AuthGuard = ({
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       .then((data: any) => {
         const parsed = ZUser.safeParse(data);
+        if (!parsed.success) {
+          toast({ description: "Failed to login" });
+          console.error(parsed.error);
+        }
         userStore({
           username: parsed.success ? parsed.data.username : "",
           userId: parsed.success ? parsed.data.userId : "",
