@@ -35,6 +35,7 @@ const signOut = () => {
 };
 
 const formSchema = z.object({
+  userId: z.string(),
   username: z.string().min(3).max(50),
   avatar: z.string().url(),
 });
@@ -76,6 +77,7 @@ const EditProfileForm = ({
   const userUpdateFn = useUserStore((state) => state.updatePerson);
   const prevUserState = useUserStore();
   const [openSignOutDialog, setOpenSignOutDialog] = useState(false);
+  const loggedInUserId = useUserStore((state) => state.userId);
 
   const { trigger, isMutating } = useSWRMutation(
     API_URLS.User.UpdateUser(),
@@ -86,6 +88,7 @@ const EditProfileForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      userId: loggedInUserId,
       username: name,
       avatar: image,
     },
@@ -118,6 +121,25 @@ const EditProfileForm = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="mx-auto max-w-lg space-y-2"
         >
+          <FormField
+            control={form.control}
+            name="userId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-primary">User Id</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="User Id"
+                    className="text-primary"
+                    disabled
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="username"
