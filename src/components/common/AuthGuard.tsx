@@ -46,8 +46,7 @@ const AuthGuard = ({
       .then((data: any) => {
         const parsed = ZUser.safeParse(data);
         if (!parsed.success) {
-          toast({ description: "Failed to login" });
-          console.error(parsed.error);
+          console.error("Failed login.");
         }
         userStore({
           username: parsed.success ? parsed.data.username : "",
