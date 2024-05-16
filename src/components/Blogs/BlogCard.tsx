@@ -16,6 +16,27 @@ import { useState } from "react";
 import EditBlogDialog from "./EditBlogDialog";
 import { convertDateUTC } from "~/lib/utils";
 
+const BlogBody = ({
+  variant,
+  body,
+}: {
+  variant: "small" | "large";
+  body: string;
+}) => {
+  return (
+    <div className={`${variant === "large" ? "max-h-full" : "max-h-52"}`}>
+      {body.length > 500 && variant === "small" ? (
+        <div className="relative">
+          <p className="text-balance">{body.slice(0, 500)}</p>
+          <div className="absolute bottom-0 h-28 w-full bg-gradient-to-t from-black to-black/0"></div>
+        </div>
+      ) : (
+        <p className="text-balance">{body}</p>
+      )}
+    </div>
+  );
+};
+
 const BlogCard = ({
   reblogData,
   variant = "small",
@@ -42,9 +63,13 @@ const BlogCard = ({
           )}
         </div>
         <CardHeader>
-          <Link href={"/blog/" + blogData.id}>
-            <CardTitle>{blogData.title}</CardTitle>
-          </Link>
+          {variant === "large" && <CardTitle>{blogData.title}</CardTitle>}
+
+          {variant === "small" && (
+            <Link href={"/blog/" + blogData.id}>
+              <CardTitle>{blogData.title}</CardTitle>
+            </Link>
+          )}
           <CardDescription className="flex items-center gap-1 pt-2 text-xs">
             <Link
               href={`/profile/${encodeURIComponent(blogData.userName)}`}
@@ -65,20 +90,15 @@ const BlogCard = ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Link href={`/blog/${encodeURIComponent(blogData.id)}`}>
-            <div
-              className={`${variant === "large" ? "max-h-full" : "max-h-52"}`}
-            >
-              {blogData.body.length > 500 && variant === "small" ? (
-                <div className="relative">
-                  <p className="text-balance">{blogData.body.slice(0, 500)}</p>
-                  <div className="absolute bottom-0 h-28 w-full bg-gradient-to-t from-black to-black/0"></div>
-                </div>
-              ) : (
-                <p className="text-balance">{blogData.body}</p>
-              )}
-            </div>
-          </Link>
+          {variant === "large" && (
+            <BlogBody body={blogData.body} variant={variant} />
+          )}
+
+          {variant === "small" && (
+            <Link href={`/blog/${encodeURIComponent(blogData.id)}`}>
+              <BlogBody body={blogData.body} variant={variant} />
+            </Link>
+          )}
         </CardContent>
       </Card>
 
