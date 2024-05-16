@@ -1,4 +1,7 @@
-export const BASE_API_URL = "http://localhost:3000" as const;
+export const BASE_API_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5248"
+    : "http://localhost:5248";
 
 export const API_URLS = {
   Blog: {
@@ -26,8 +29,8 @@ export const API_URLS = {
   },
 
   Auth: {
-    Register: () => `${BASE_API_URL}/register` as const,
-    Login: () => `${BASE_API_URL}/login` as const,
-    Refresh: () => `${BASE_API_URL}/refresh` as const,
+    Register: () => `${BASE_API_URL}/api/auth/register` as const,
+    Login: () => `${BASE_API_URL}/api/auth/login` as const,
+    Refresh: () => `${BASE_API_URL}/api/auth/refresh` as const,
   },
 };
