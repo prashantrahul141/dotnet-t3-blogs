@@ -1,7 +1,6 @@
-export const BASE_API_URL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5248"
-    : "http://localhost:5248";
+import { env } from "~/env";
+
+export const BASE_API_URL = env.NEXT_PUBLIC_BASE_API_URL;
 
 export const API_URLS = {
   Blog: {
